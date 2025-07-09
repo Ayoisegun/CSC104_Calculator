@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="calculator">
+    <div class="display" id="display">0</div>
+    <div class="buttons">
+      <button onclick="clearDisplay()" class="clear">C</button>
+      <button onclick="appendOperator('/')" class="operator">÷</button>
+      <button onclick="appendOperator('*')" class="operator">×</button>
+      <button onclick="appendOperator('-')" class="operator">−</button>
+
+      <button onclick="appendNumber('7')">7</button>
+      <button onclick="appendNumber('8')">8</button>
+      <button onclick="appendNumber('9')">9</button>
+      <button onclick="appendOperator('+')" class="operator">+</button>
+
+      <button onclick="appendNumber('4')">4</button>
+      <button onclick="appendNumber('5')">5</button>
+      <button onclick="appendNumber('6')">6</button>
+      <button onclick="appendNumber('1')">1</button>
+
+      <button onclick="appendNumber('2')">2</button>
+      <button onclick="appendNumber('3')">3</button>
+      <button onclick="appendNumber('0')" style="grid-column: span 2;">0</button>
+      <button onclick="appendDot('.')">.</button>
+
+      <button onclick="del()">DEL</button>
+
+      
+
+      <button onclick="calculate()" class="equal">=</button>
+    </div>
+  </div>
+
+  <script>
+    let display = document.getElementById("display");
+    let currentInput = "";
+
+    function appendNumber(num) {
+      if (display.innerText === "0") {
+        currentInput = num;
+      } else {
+        currentInput += num;
+      }
+      display.innerText = currentInput;
+    }
+
+    function appendOperator(op) {
+      if (currentInput === "") return;
+      const lastChar = currentInput.slice(-1);
+      if ("+-*/".includes(lastChar)) {
+        currentInput = currentInput.slice(0, -1) + op;
+      } else {
+        currentInput += op;
+      }
+      display.innerText = currentInput;
+    }
+
+    function appendDot(dot) {
+      const lastPart = currentInput.split(/[\+\-\*\/]/).pop();
+      if (!lastPart.includes(dot)) {
+        currentInput += dot;
+        display.innerText = currentInput;
+      }
+    }
+
+    function clearDisplay() {
+      currentInput = "";
+      display.innerText = "0";
+    }
+
+    function calculate() {
+      try {
+        const result = eval(currentInput);
+        display.innerText = result;
+        currentInput = result.toString();
+      } catch (error) {
+        display.innerText = "Error";
+        currentInput = "";
+      }
+    }
+
+    function del() {
+  if (currentInput.length > 0) {
+    currentInput = currentInput.slice(0, -1);
+    display.innerText = currentInput || "0";
+  }
+}
+
+
+  </script>
+</body>
+</html>
